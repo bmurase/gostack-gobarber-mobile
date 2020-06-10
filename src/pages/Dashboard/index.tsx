@@ -1,15 +1,21 @@
 import React from 'react';
-import { View, Button } from 'react-native';
 
 import { useAuth } from '../../hooks/auth';
 
+import { Container, Header, HeaderTitle, UserName } from './styles';
+
 const Dashboard: React.FC = () => {
-  const { signOut } = useAuth();
+  const { user } = useAuth();
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Button title="Sair" onPress={signOut} />
-    </View>
+    <Container>
+      <Header>
+        <HeaderTitle>
+          Bem vinde, {'\n'}
+          <UserName>Beatriz Murase</UserName>
+        </HeaderTitle>
+      </Header>
+    </Container>
   );
 };
 
