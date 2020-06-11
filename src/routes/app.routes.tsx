@@ -5,6 +5,8 @@ import Profile from '../pages/Profile';
 import CreateAppointment from '../pages/CreateAppointment';
 import AppointmentCreated from '../pages/AppointmentCreated';
 import Dashboard from '../pages/Dashboard';
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
 
 const App = createStackNavigator();
 
@@ -16,9 +18,11 @@ const AppRoutes: React.FC = () => (
     }}
   >
     <App.Screen name="Dashboard" component={Dashboard} />
-    <App.Screen name="Dashboard" component={Profile} />
-    <App.Screen name="Dashboard" component={CreateAppointment} />
-    <App.Screen name="Dashboard" component={AppointmentCreated} />
+    <App.Screen name="Signin" component={SignIn} />
+    <App.Screen name="Signup" component={SignUp} />
+    <App.Screen name="Profile" component={Profile} />
+    <App.Screen name="CreateAppointment" component={CreateAppointment} />
+    <App.Screen name="AppointmentCreated" component={AppointmentCreated} />
   </App.Navigator>
 );
 
