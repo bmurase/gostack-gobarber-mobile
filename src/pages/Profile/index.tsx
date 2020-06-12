@@ -28,10 +28,12 @@ import {
   UserAvatarButton,
 } from './styles';
 
-interface SignUnFormData {
+interface ProfileFormData {
   name: string;
   email: string;
+  old_password: string;
   password: string;
+  password_confirmation: string;
 }
 
 const Profile: React.FC = () => {
@@ -45,7 +47,7 @@ const Profile: React.FC = () => {
   const navigation = useNavigation();
 
   const handleSignUp = useCallback(
-    async (data: SignUnFormData) => {
+    async (data: ProfileFormData) => {
       try {
         formRef.current?.setErrors({});
 
@@ -54,16 +56,42 @@ const Profile: React.FC = () => {
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('E-mail inválido'),
-          password: Yup.string()
-            .required('Senha obrigatória')
-            .min(6, 'No mínimo 6 dígitos'),
+          old_password: Yup.string(),
+          password: Yup.string().when('old_password', {
+            is: val => !!val.length,
+            then: Yup.string().required('Campo obrigatório'),
+            otherwise: Yup.string(),
+          }),
+          password_confirmation: Yup.string()
+            .when('old_password', {
+              is: val => !!val.length,
+              then: Yup.string().required('Campo obrigatório'),
+              otherwise: Yup.string(),
+            })
+            .oneOf([Yup.ref('password'), null], 'Confirmação incorreta'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        api.post('/users', data);
+        const {
+          name,
+          email,
+          old_password,
+          password,
+          password_confirmation,
+        } = data;
+
+        const formData = {
+          name,
+          email,
+          ...(old_password
+            ? { old_password, password, password_confirmation }
+            : {}),
+        };
+
+        api.put('/profile', formData);
 
         Alert.alert(
           'Cadastro realizado com sucesso!',
