@@ -25,7 +25,7 @@ import logoImg from '../../assets/logo.png';
 
 import { Container, Title, BackToSignIn, BackToSignInText } from './styles';
 
-interface SignUnFormData {
+interface SignUpFormData {
   name: string;
   email: string;
   password: string;
@@ -39,7 +39,7 @@ const SignUp: React.FC = () => {
   const navigation = useNavigation();
 
   const handleSignUp = useCallback(
-    async (data: SignUnFormData) => {
+    async (data: SignUpFormData) => {
       try {
         formRef.current?.setErrors({});
 
