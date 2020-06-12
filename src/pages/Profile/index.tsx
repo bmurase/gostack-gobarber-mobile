@@ -37,7 +37,7 @@ interface ProfileFormData {
 }
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const emailInputRef = useRef<TextInput>(null);
   const oldPasswordlInputRef = useRef<TextInput>(null);
@@ -91,7 +91,9 @@ const Profile: React.FC = () => {
             : {}),
         };
 
-        api.put('/profile', formData);
+        const response = await api.put('/profile', formData);
+
+        updateUser(response.data);
 
         Alert.alert('Perfil atualizado com sucesso!');
 
