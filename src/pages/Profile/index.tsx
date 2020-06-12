@@ -93,10 +93,7 @@ const Profile: React.FC = () => {
 
         api.put('/profile', formData);
 
-        Alert.alert(
-          'Cadastro realizado com sucesso!',
-          'Você já pode fazer login na aplicação.',
-        );
+        Alert.alert('Perfil atualizado com sucesso!');
 
         navigation.goBack();
       } catch (err) {
@@ -106,8 +103,8 @@ const Profile: React.FC = () => {
           formRef.current?.setErrors(errors);
         } else {
           Alert.alert(
-            'Erro no cadastro',
-            'Ocorreu um erro ao fazer cadastro, tente novamente',
+            'Erro',
+            'Ocorreu um erro na atualização do seu perfil, tente novamente',
           );
         }
       }
@@ -143,7 +140,7 @@ const Profile: React.FC = () => {
               <Title>Meu perfil</Title>
             </View>
 
-            <Form ref={formRef} onSubmit={handleSignUp}>
+            <Form initialData={user} ref={formRef} onSubmit={handleSignUp}>
               <Input
                 autoCapitalize="words"
                 name="name"
