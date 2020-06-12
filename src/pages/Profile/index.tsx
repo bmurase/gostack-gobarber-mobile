@@ -133,18 +133,20 @@ const Profile: React.FC = () => {
           return;
         }
 
-        const source = { uri: response.uri };
-
         const data = new FormData();
 
         data.append('avatar', {
-          type: 'image/jpg',
+          type: 'image/jpeg',
           name: `${user.id}.jpg`,
           uri: response.uri,
         });
+
+        api.patch('users/avatar', data).then(apiResponse => {
+          updateUser(apiResponse.data);
+        });
       },
     );
-  }, []);
+  }, [user.id, updateUser]);
 
   const navigateBack = useCallback(() => {
     navigation.goBack();
