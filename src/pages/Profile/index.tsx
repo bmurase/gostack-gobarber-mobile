@@ -7,7 +7,6 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
 
 import * as Yup from 'yup';
@@ -21,7 +20,7 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { Container, Title } from './styles';
+import { Container, Title, UserAvatar, UserAvatarButton } from './styles';
 
 interface SignUnFormData {
   name: string;
@@ -33,7 +32,9 @@ const Profile: React.FC = () => {
   const { user } = useAuth();
   const formRef = useRef<FormHandles>(null);
   const emailInputRef = useRef<TextInput>(null);
+  const oldPasswordlInputRef = useRef<TextInput>(null);
   const passwordlInputRef = useRef<TextInput>(null);
+  const confirmPasswordlInputRef = useRef<TextInput>(null);
 
   const navigation = useNavigation();
 
@@ -92,6 +93,10 @@ const Profile: React.FC = () => {
           contentContainerStyle={{ flex: 1 }}
         >
           <Container>
+            <UserAvatarButton onPress={() => {}}>
+              <UserAvatar source={{ uri: user.avatar_url }} />
+            </UserAvatarButton>
+
             <View>
               <Title>Meu perfil</Title>
             </View>
@@ -118,6 +123,20 @@ const Profile: React.FC = () => {
                 placeholder="E-mail"
                 returnKeyType="next"
                 onSubmitEditing={() => {
+                  oldPasswordlInputRef.current?.focus();
+                }}
+              />
+
+              <Input
+                ref={oldPasswordlInputRef}
+                name="old_password"
+                icon="lock"
+                placeholder="Senha atual"
+                secureTextEntry
+                textContentType="newPassword"
+                containerStyle={{ marginTop: 16 }}
+                returnKeyType="next"
+                onSubmitEditing={() => {
                   passwordlInputRef.current?.focus();
                 }}
               />
@@ -126,7 +145,20 @@ const Profile: React.FC = () => {
                 ref={passwordlInputRef}
                 name="password"
                 icon="lock"
-                placeholder="Senha"
+                placeholder="Nova senha"
+                secureTextEntry
+                textContentType="newPassword"
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  confirmPasswordlInputRef.current?.focus();
+                }}
+              />
+
+              <Input
+                ref={confirmPasswordlInputRef}
+                name="password_confirmation"
+                icon="lock"
+                placeholder="Confirmar senha"
                 secureTextEntry
                 textContentType="newPassword"
                 returnKeyType="send"
