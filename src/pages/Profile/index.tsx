@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
+import Icon from 'react-native-vector-icons/Feather';
 import * as Yup from 'yup';
 
 import { Form } from '@unform/mobile';
@@ -20,7 +20,13 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { Container, Title, UserAvatar, UserAvatarButton } from './styles';
+import {
+  Container,
+  BackButton,
+  Title,
+  UserAvatar,
+  UserAvatarButton,
+} from './styles';
 
 interface SignUnFormData {
   name: string;
@@ -81,6 +87,10 @@ const Profile: React.FC = () => {
     [navigation],
   );
 
+  const navigateBack = useCallback(() => {
+    navigation.goBack();
+  }, [navigation]);
+
   return (
     <>
       <KeyboardAvoidingView
@@ -93,6 +103,10 @@ const Profile: React.FC = () => {
           contentContainerStyle={{ flex: 1 }}
         >
           <Container>
+            <BackButton onPress={navigateBack}>
+              <Icon name="chevron-left" size={24} color="#999591" />
+            </BackButton>
+
             <UserAvatarButton onPress={() => {}}>
               <UserAvatar source={{ uri: user.avatar_url }} />
             </UserAvatarButton>
